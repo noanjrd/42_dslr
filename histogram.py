@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 #  Which Hogwarts course has a homogeneous score distribution between all four houses?
 
-def iterate_on_rows(data: pd.DataFrame):
+def histogram(data: pd.DataFrame):
     means = data.groupby("Hogwarts House").mean(numeric_only=True)
     std = means.std()
     print(means)
@@ -39,7 +39,7 @@ def iterate_on_rows(data: pd.DataFrame):
 def main():
     # try:
     data = pd.read_csv("datasets/dataset_train.csv")
-    iterate_on_rows(data)
+    histogram(data)
     # except Exception as  e:
     #     print(e)
     #     exit(1)

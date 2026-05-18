@@ -6,15 +6,13 @@ import matplotlib.pyplot as plt
 def scatter_plot(data : pd.DataFrame):
     data = data.select_dtypes(include="number")
     corr_matrix  = data.corr(method="pearson")
-    # print(corr_matrix)
-    corr_unstack = corr_matrix.unstack() 
-    # print(corr_unstack)
-    corr_unstack = corr_unstack[corr_unstack < 1]#  removes self corelations
+    corr_unstack = abs(corr_matrix.unstack())
+    corr_unstack = corr_unstack[corr_unstack < 1] #  removes self corelations
 
     corr_unstack = corr_unstack.sort_values(ascending=False)
-    # print(corr_unstack)
+    # print(corr_unstack) #  rounds 0.99999 to 1
     best = corr_unstack.index[0]
-    # print(corr_list)
+    # print(corr_unstack[0]) #  it's 0.999999 and not 1
     data.plot.scatter(x=best[0], y=best[1])
     plt.show()
     return
