@@ -1,1 +1,1 @@
-specify here that we couldnt use the built in fucntions like mean and etc for the first ex
+specify here that we couldnt use the built in functions like mean and etc for the first exercice
