@@ -39,17 +39,6 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     save_in_json(weights, bias)
     return
 
-def refine_dataset(data: pd.DataFrame):
-    data["Best Hand"] = (data["Best Hand"] == "Right").astype(int)
-    numeric_cols = [col for col in data.columns if pd.api.types.is_numeric_dtype(data[col]) and col != "Index"]
-    for col in numeric_cols:
-        median = data[col].median()
-        data[col] = data[col].fillna(median)
-        minn, maxx = data[col].min(), data[col].max()
-        data[col] = (data[col] - minn) / (maxx - minn)
-
-    return numeric_cols
-
 def main():
     try:
         data = pd.read_csv("./datasets/dataset_train.csv")
