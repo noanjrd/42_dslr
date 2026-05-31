@@ -1,6 +1,7 @@
 import math
 import pandas as pd
 import json
+from utils import refine_dataset
 
 def sigmoid(z):
     return 1 / (1 + (math.e ** -(z)))
@@ -23,7 +24,7 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     houses = ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"]
     weights = {houses[i] : { col: 0.0 for col in numeric_cols} for i in range(4)}
     bias = {houses[i] : 0.0 for i in range(4)}
-    nb_iterations = 1000
+    nb_iterations = 2000
     learning_rate = 0.01
     for house in houses:
         for _ in range(nb_iterations):
@@ -31,7 +32,6 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
             y_pred = sigmoid(z)
             y = (data["Hogwarts House"] == house).astype(int)
             errors = y_pred - y
-            # print(errors)
             for col in numeric_cols:
                 res_of_derivative_for_weights = (errors * data[col]).mean()
                 weights[house][col] -= (learning_rate * res_of_derivative_for_weights)
@@ -44,16 +44,12 @@ def main():
         data = pd.read_csv("./datasets/dataset_train.csv")
         numeric_cols = refine_dataset(data)
         adjust_weights_and_bias(data, numeric_cols)
-        # print(data)
-    # print(data)
     except KeyboardInterrupt:
         print("Program interrupted")
         exit(1)
     except FileNotFoundError:
         print("File not found")
         exit(1)
-    
-    
     return
 
 if __name__ == "__main__":

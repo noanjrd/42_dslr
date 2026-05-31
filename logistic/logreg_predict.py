@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import math
 from utils import refine_dataset
+from sklearn.metrics import precision_score
 
 def sigmoid(z):
     return 1 / (1 + (math.e ** -(z)))
@@ -11,7 +12,6 @@ def get_weights_and_bias():
     try:
         with open("weights_and_bias.json", "r") as f:
             data = json.load(f)
-        print("here")
         weights = data["weights"]
         bias = data["bias"]
         return weights, bias
@@ -28,24 +28,27 @@ def get_z(data, row, weights):
         res += weights[col] * row[col]
     return res
 
+def evaluate_precision(y_test, y_pred):
+    precision = precision_score(y_test, y_pred, average='macro')
+    print(precision)
+    #  Calculates precision for each class, then takes a simple average.
 
 def main():
-    print("start")
     weights, bias = get_weights_and_bias()
     # print(weights)
-    data = pd.read_csv("datasets/dataset_test.csv")
-    numeric_cols = refine_dataset(data)
-    # for index, row in data.iterrows():
+    data = pd.read_csv("datasets/dataset_train.csv")
+    refine_dataset(data)
     houses = ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"]
     houses_sig = {}
     for house in houses:
         z = get_z(data, data, weights[house]) + bias[house]
         houses_sig[house] = sigmoid(z)
-    # print(houses_sig)
     prob_df = pd.DataFrame(houses_sig)
-    # print(prob_df)
-    data["Hogwarts House"] = prob_df.idxmax()
-    print(data)
+    new  = prob_df.idxmax(axis=1)
+    new.index.name = "Index"
+    new.name = "Hogwarts House"
+    new.to_csv("houses.csv")
+    evaluate_precision(data["Hogwarts House"], new)
         
     return
 

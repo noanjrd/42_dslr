@@ -22,13 +22,15 @@ def mean(data, column):
     return float(summ / i)
 
 
-def std(data, column, mean):
+def variance(data, column, mean):
     summ = 0
+    count = 0
     for row in data[column]:
         if math.isnan(row):
             continue
         summ += (row - mean) ** 2
-    return float((summ / 1) ** 0.5)  # sqrt
+        count += 1
+    return float(summ / (count - 1))  if count > 0 else 0.0
 
 
 def min_and_max(data, column):
@@ -94,6 +96,7 @@ def create_stats(data: pd.DataFrame):
     stats = {
         "Count": [],
         "Mean": [],
+        "Variance": [],
         "Std": [],  # Standard Deviation
         "Min": [],
         "25%": [],
@@ -113,8 +116,11 @@ def create_stats(data: pd.DataFrame):
                 stats["Count"].append(count(data, column))
             elif key == "Mean":
                 stats["Mean"].append(mean(data, column))
+            elif key == "Variance":
+                stats["Variance"].append(variance(data, column, stats["Mean"][i]))
             elif key == "Std":
-                stats["Std"].append(std(data, column, stats["Mean"][i]))
+                v = stats["Variance"][i] ** 0.5
+                stats["Std"].append(v)
             elif key == "Min":
                 min, max = min_and_max(data, column)
                 stats["Min"].append(min)
