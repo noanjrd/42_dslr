@@ -102,13 +102,14 @@ def create_stats(data: pd.DataFrame):
         "25%": [],
         "50%": [],
         "75%": [],
-        "Max": []
+        "Max": [],
+        "Range": []
     }
 
     for key, value in stats.items():
         i = 0
-        if key == "50%":
-            break
+        if key == "50%" or key == "75%":
+            continue
         for column in data.columns:
             if not pd.api.types.is_numeric_dtype(data[column]):
                 continue
@@ -131,6 +132,8 @@ def create_stats(data: pd.DataFrame):
                 stats["25%"] = c25
                 stats["50%"] = c50
                 stats["75%"] = c75
+            elif key == "Range":
+                stats["Range"].append((stats["Max"][i] - stats["Min"][i]))
             i += 1
     df = pd.DataFrame.from_dict(stats)
     df.index = [f"Feature {i}" for i in range(1, len(stats["Count"]) + 1)]
