@@ -12,25 +12,39 @@ def save_in_json(weights, bias):
     with open("weights_and_bias.json", "w") as f:
         json.dump(data, f, indent=4)
 
+def get_z(data, row, weights):
+    res = 0
+    for col in data.columns:
+        if not pd.api.types.is_numeric_dtype(data[col]) or col == "Index":
+            continue
+        res += weights[col] * row[col]
+    return res
+
+
 def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     houses = ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"]
-    weights = {houses[i] : { col: 0.0 for col in numeric_cols} for i in range(4)}
-    bias = {houses[i] : 0.0 for i in range(4)}
-    epoch = 2000
+    weights = {}
+    bias = {}
+    epoch = 10
     learning_rate = 0.01
+    indices = np.arange(len(data))  #create a list of indices
     x = data[numeric_cols].to_numpy()
     for house in houses:
         w = np.zeros(len(numeric_cols))
         b = 0.0
+        y = (data["Hogwarts House"] == house).astype(int).to_numpy()
         for _ in range(epoch):
-            z = np.dot(x,w) + bias[house]
-            y_pred = sigmoid(z)
-            y = (data["Hogwarts House"] == house).astype(int)
-            errors = y_pred - y
-            res_of_derivative_for_weights = np.dot(errors, x)
-            w -= (learning_rate * res_of_derivative_for_weights)
-            b -= (learning_rate * errors.mean())
-        weights[house] = {col:w[i] for i, col in enumerate(numeric_cols)}
+            np.random.shuffle(indices)
+            for index in indices:
+                x_i = x[index]
+                y_i = y[index]
+                z = np.dot(w, x_i) + b
+                y_pred = sigmoid(z)
+                error = y_pred - y_i
+                res_of_derivative_for_weights = (error * x_i)
+                w -= (learning_rate * res_of_derivative_for_weights)
+                b -= (learning_rate * error)
+        weights[house] = {col: w[i] for i, col in enumerate(numeric_cols)}
         bias[house] = b
     save_in_json(weights, bias)
     return

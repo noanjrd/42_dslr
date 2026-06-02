@@ -29,9 +29,11 @@ def get_z(data, row, weights):
     return res
 
 def evaluate_precision(y_test, y_pred):
-    precision = precision_score(y_test, y_pred, average='macro')
+    precision = precision_score(y_test, y_pred, average='micro', zero_division=1)
     print(precision)
     #  Calculates precision for each class, then takes a simple average.
+    #  micro: counts all predictions together.
+    #  macro: computes precision for each class, then averages them equally.
 
 def main():
     weights, bias = get_weights_and_bias()
@@ -48,6 +50,7 @@ def main():
     new.index.name = "Index"
     new.name = "Hogwarts House"
     new.to_csv("houses.csv")
+    # print(new, data["Hogwarts House"])
     evaluate_precision(data["Hogwarts House"], new)
         
     return
