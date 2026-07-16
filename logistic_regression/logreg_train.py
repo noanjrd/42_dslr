@@ -19,20 +19,21 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     learning_rate = 0.01
     x = data[numeric_cols].to_numpy()
     number_of_rows = len(x)
-    print(number_of_rows)
+    # print(number_of_rows)
     for house in houses:
         w = np.zeros(len(numeric_cols))
         b = 0.0
         y = (data["Hogwarts House"] == house).astype(int)
         for _ in range(epoch):
-            z = np.dot(x,w) + b
+            z = np.dot(x,w) + b  # shape of (1600,)
+            # print(z.shape)
             y_pred = sigmoid(z)
             # print(y_pred)
-            # print(y_pred, y)
+            # print(y_pred.shape, y.shape)
             errors = y_pred - y
-            print(errors.head())
+            print(errors)
             res_of_derivative_for_weights = np.dot(errors, x) / number_of_rows
-            # print(res_of_derivative_for_weights)
+            print(res_of_derivative_for_weights)
             w -= (learning_rate * res_of_derivative_for_weights)
             b -= (learning_rate * errors.mean())
         weights[house] = {col:w[i] for i, col in enumerate(numeric_cols)}
