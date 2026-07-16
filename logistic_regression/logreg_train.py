@@ -18,22 +18,28 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     epoch = 2500
     learning_rate = 0.01
     x = data[numeric_cols].to_numpy()
-    m = len(x)
+    number_of_rows = len(x)
+    print(number_of_rows)
     for house in houses:
         w = np.zeros(len(numeric_cols))
         b = 0.0
+        y = (data["Hogwarts House"] == house).astype(int)
         for _ in range(epoch):
             z = np.dot(x,w) + b
             y_pred = sigmoid(z)
-            y = (data["Hogwarts House"] == house).astype(int)
+            # print(y_pred)
+            # print(y_pred, y)
             errors = y_pred - y
-            res_of_derivative_for_weights = np.dot(errors, x) / m
+            print(errors.head())
+            res_of_derivative_for_weights = np.dot(errors, x) / number_of_rows
+            # print(res_of_derivative_for_weights)
             w -= (learning_rate * res_of_derivative_for_weights)
             b -= (learning_rate * errors.mean())
         weights[house] = {col:w[i] for i, col in enumerate(numeric_cols)}
         bias[house] = b
     save_in_json(weights, bias)
     return
+
 
 def main():
     try:
@@ -47,6 +53,7 @@ def main():
         print("File not found")
         exit(1)
     return
+
 
 if __name__ == "__main__":
     main()
