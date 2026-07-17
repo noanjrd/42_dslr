@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 
 
 def refine_dataset(data: pd.DataFrame):
@@ -9,5 +9,4 @@ def refine_dataset(data: pd.DataFrame):
         data[col] = data[col].fillna(median)
         minn, maxx = data[col].min(), data[col].max()
         data[col] = (data[col] - minn) / (maxx - minn)
-
     return numeric_cols
