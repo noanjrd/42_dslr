@@ -2,7 +2,7 @@ import pandas as pd
 import json
 import math
 from utils import refine_dataset
-from sklearn.metrics import precision_score
+
 
 def sigmoid(z):
     return 1 / (1 + (math.e ** -(z)))
@@ -28,12 +28,6 @@ def get_z(data, row, weights):
         res += weights[col] * row[col]
     return res
 
-def evaluate_precision(y_test, y_pred):
-    precision = precision_score(y_test, y_pred, average='micro', zero_division=1)
-    print(precision)
-    #  Calculates precision for each class, then takes a simple average.
-    #  micro: counts all predictions together.
-    #  macro: computes precision for each class, then averages them equally.
 
 def main():
     weights, bias = get_weights_and_bias()

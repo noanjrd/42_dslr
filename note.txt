@@ -1,0 +1,4 @@
+specify here that we couldnt use the built in functions like mean and etc for the first exercice
+
+
+Dont't export the precision.py for evaluation

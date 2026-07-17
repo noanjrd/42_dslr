@@ -3,43 +3,43 @@ import numpy as np
 import json
 from utils import refine_dataset
 
+
 def sigmoid(z):
     return 1 / (1 + (np.exp(-z)))
+
 
 def save_in_json(weights, bias):
     data = {"weights": weights, "bias": bias}
     with open("weights_and_bias.json", "w") as f:
         json.dump(data, f, indent=4)
 
+
 def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     houses = ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"]
-    weights = {houses[i] : { col: 0.0 for col in numeric_cols} for i in range(4)}
-    bias = {houses[i] : 0.0 for i in range(4)}
+    weights = {houses[i]: {col: 0.0 for col in numeric_cols} for i in range(4)}
+    bias = {houses[i]: 0.0 for i in range(4)}
     epoch = 2500
     learning_rate = 0.01
     x = data[numeric_cols].to_numpy()
     number_of_rows = len(x)
-    # print(number_of_rows)
+
     for house in houses:
         w = np.zeros(len(numeric_cols))
         b = 0.0
         y = (data["Hogwarts House"] == house).astype(int)
+
         for _ in range(epoch):
-            z = np.dot(x,w) + b  # shape of (1600,)
-            # print(z.shape)
+            z = np.dot(x, w) + b  # shape of (1600,)
             y_pred = sigmoid(z)
-            # print(y_pred)
-            # print(y_pred.shape, y.shape)
             errors = y_pred - y
-            print(errors)
             res_of_derivative_for_weights = np.dot(errors, x) / number_of_rows
             print(res_of_derivative_for_weights)
             w -= (learning_rate * res_of_derivative_for_weights)
             b -= (learning_rate * errors.mean())
-        weights[house] = {col:w[i] for i, col in enumerate(numeric_cols)}
+        weights[house] = {col: w[i] for i, col in enumerate(numeric_cols)}
         bias[house] = b
+
     save_in_json(weights, bias)
-    return
 
 
 def main():
@@ -53,9 +53,7 @@ def main():
     except FileNotFoundError:
         print("File not found")
         exit(1)
-    return
 
 
 if __name__ == "__main__":
     main()
-    

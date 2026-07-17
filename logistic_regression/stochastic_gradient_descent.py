@@ -3,13 +3,16 @@ import numpy as np
 import json
 from utils import refine_dataset
 
+
 def sigmoid(z):
     return 1 / (1 + (np.exp(-z)))
+
 
 def save_in_json(weights, bias):
     data = {"weights": weights, "bias": bias}
     with open("weights_and_bias.json", "w") as f:
         json.dump(data, f, indent=4)
+
 
 def get_z(data, row, weights):
     res = 0
@@ -26,13 +29,14 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     bias = {}
     epoch = 10
     learning_rate = 0.01
-    indices = np.arange(len(data))  #create a list of indices
+    indices = np.arange(len(data))  # creates a list of indices
     x = data[numeric_cols].to_numpy()
-    m = len(x)
+
     for house in houses:
         w = np.zeros(len(numeric_cols))
         b = 0.0
         y = (data["Hogwarts House"] == house).astype(int).to_numpy()
+
         for _ in range(epoch):
             np.random.shuffle(indices)
             for index in indices:
@@ -40,14 +44,15 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
                 y_i = y[index]
                 z = np.dot(w, x_i) + b
                 y_pred = sigmoid(z)
-                errors = y_pred - y_i
-                res_of_derivative_for_weights = errors * x_i
+                error = y_pred - y_i
+                res_of_derivative_for_weights = error * x_i
                 w -= learning_rate * res_of_derivative_for_weights
-                b -= learning_rate * errors
+                b -= learning_rate * error
         weights[house] = {col: w[i] for i, col in enumerate(numeric_cols)}
         bias[house] = b
+
     save_in_json(weights, bias)
-    return
+
 
 def main():
     try:
@@ -62,6 +67,6 @@ def main():
         exit(1)
     return
 
+
 if __name__ == "__main__":
     main()
-    
