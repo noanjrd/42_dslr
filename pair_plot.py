@@ -15,6 +15,7 @@ def pair_plot(data: pd.DataFrame):
 
 
 def main():
+    """Load the training dataset and display the pair plot visualization."""
     try:
         data = pd.read_csv("datasets/dataset_train.csv")
         pair_plot(data)

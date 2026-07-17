@@ -20,6 +20,7 @@ def scatter_plot(data: pd.DataFrame):
 
 
 def main():
+    """Load the training dataset and display the most correlated scatter plot."""
     try:
         data = pd.read_csv("datasets/dataset_train.csv")
         scatter_plot(data)

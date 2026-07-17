@@ -93,6 +93,11 @@ def calulate_25_50_75(data, column, count):
 
 
 def create_stats(data: pd.DataFrame):
+    """Compute and print descriptive statistics for all numeric columns.
+
+    The output includes count, mean, variance, standard deviation, min,
+    quartiles, max, and range for each numeric feature in the dataset.
+    """
     stats = {
         "Count": [],
         "Mean": [],
@@ -141,6 +146,7 @@ def create_stats(data: pd.DataFrame):
 
 
 def main():
+    """Read the dataset path from the command line and display statistics."""
     try:
         argv = sys.argv
         assert len(argv) == 2, "Wrong number of arguments"

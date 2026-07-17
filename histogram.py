@@ -26,6 +26,9 @@ def histogram(data: pd.DataFrame):
 
 
 def main():
+    """Load the training dataset, determine the course that has a homogeneous score distribution
+    between all four houses, and display its grade distribution across the four houses.
+    """
     try:
         data = pd.read_csv("datasets/dataset_train.csv")
         histogram(data)
