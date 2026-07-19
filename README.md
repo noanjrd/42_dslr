@@ -9,7 +9,7 @@ This project builds a **binary and multi-class logistic regression classifier** 
 The implementation includes:
 
 - Logistic regression training with stochastic gradient descent and mini-batch learning
-- Custom mathematical implementations (sigmoid, gradient descent, weight optimization)
+- Custom mathematical implementations (sigmoid, gradient descent, weight optimization, adaptive learning-rate)
 - Data exploration and visualization tools for training data analysis
 - Model evaluation and prediction capabilities, reaching **98.1% precision** on the test set
 
@@ -17,6 +17,7 @@ The implementation includes:
 
 - **Logistic Regression Implementation**
   - Sigmoid activation function
+  - Adaptive learning-rate updates based on accumulated squared gradients
   - Gradient descent optimization
   - Stochastic and mini-batch learning strategies
   - Multi-class classification (One-vs-Rest approach)
@@ -110,7 +111,7 @@ python logistic_regression/logreg_predict.py
 Evaluate model precision after training and prediction:
 
 ```bash
-python logistic_regression/precision.py
+python logistic_regression/logreg_precision.py
 ```
 
 ## Project Structure
@@ -129,7 +130,7 @@ python logistic_regression/precision.py
 └── logistic_regression/
     ├── logreg_train.py                # Model training script
     ├── logreg_predict.py              # Prediction script
-    ├── precision.py                   # Precision evaluation script
+    ├── logreg_precision.py            # Precision evaluation script
     ├── stochastic_gradient_descent.py # SGD implementation
     ├── mini_batch.py                  # Mini-batch learning
     └── utils.py                       # Utility functions
@@ -140,8 +141,8 @@ python logistic_regression/precision.py
 - **Precision: 98.1%** on the test dataset
 - **Model Configuration**
   - Epochs: 2500
-  - Learning Rate: 0.01
-  - Optimization: Gradient Descent with weight adjustment
+  - Base learning rate: 1 (adapted dynamically using accumulated squared gradients)
+  - Optimization: Gradient descent with adaptive learning-rate scaling
   - Classes: 4 Hogwarts houses (One-vs-Rest binary classifiers)
 
 _Note: Configuration parameters may vary slightly depending on whether standard gradient descent, stochastic gradient descent, or mini-batch learning is used._

@@ -31,7 +31,6 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
         y = (data["Hogwarts House"] == house).astype(int).to_numpy()
         gradient_history_b = 0.0
         gradient_history_w = np.zeros_like(w)
-        
 
         for _ in range(epoch):
             indices = np.random.permutation(number_of_rows)  # shuffle the indexes
