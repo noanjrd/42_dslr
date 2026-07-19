@@ -18,16 +18,20 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
     houses = ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"]
     weights = {houses[i]: {col: 0.0 for col in numeric_cols} for i in range(4)}
     bias = {houses[i]: 0.0 for i in range(4)}
-    epoch = 1000
-    learnign_rate = 0.01
+    epoch = 2
+    learnign_rate = 1
     x = data[numeric_cols].to_numpy()
     number_of_rows = len(x)
     batch_size = number_of_rows // 10
+    eps = 1e-8
 
     for house in houses:
         w = np.zeros(len(numeric_cols))
         b = 0.0
         y = (data["Hogwarts House"] == house).astype(int).to_numpy()
+        gradient_history_b = 0.0
+        gradient_history_w = np.zeros_like(w)
+        
 
         for _ in range(epoch):
             indices = np.random.permutation(number_of_rows)  # shuffle the indexes
@@ -36,12 +40,19 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
 
             for i in range(0, number_of_rows, batch_size):
                 x_batch = x_shuffled[i:i + batch_size]
-                y_batch = np.dot(x[i:i + batch_size], w) + b
-                y_pred = sigmoid(y_batch)
+                z = np.dot(x_batch, w) + b
+                y_pred = sigmoid(z)
                 errors = y_pred - y_shuffled[i:i + batch_size]
+
+                res_of_derivative_for_bias = errors.mean()
                 res_of_derivative_for_weights = np.dot(errors, x_batch) / batch_size
-                w -= learnign_rate * res_of_derivative_for_weights
-                b -= learnign_rate * errors.mean()
+
+                gradient_history_b = gradient_history_b + res_of_derivative_for_bias ** 2
+                gradient_history_w = gradient_history_w + res_of_derivative_for_weights ** 2
+
+                w -= (learnign_rate * res_of_derivative_for_weights) / (np.sqrt(gradient_history_w) + eps)
+                b -= (learnign_rate * res_of_derivative_for_bias) / (np.sqrt(gradient_history_b) + eps)
+
         weights[house] = {col: w[index] for index, col in enumerate(numeric_cols)}
         bias[house] = b
     save_in_json(weights, bias)
