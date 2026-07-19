@@ -140,7 +140,7 @@ python logistic_regression/logreg_precision.py
 
 - **Precision: 98.1%** on the test dataset
 - **Model Configuration**
-  - Epochs: 2500
+  - Epochs: 20
   - Base learning rate: 1 (adapted dynamically using accumulated squared gradients)
   - Optimization: Gradient descent with adaptive learning-rate scaling
   - Classes: 4 Hogwarts houses (One-vs-Rest binary classifiers)
