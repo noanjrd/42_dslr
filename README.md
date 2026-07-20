@@ -147,6 +147,11 @@ python logistic_regression/logreg_precision.py
 
 _Note: Configuration parameters may vary slightly depending on whether standard gradient descent, stochastic gradient descent, or mini-batch learning is used._
 
+## Useful Resources
+
+- https://www.geeksforgeeks.org/deep-learning/binary-cross-entropy-log-loss-for-binary-classification/
+- https://medium.com/@RobuRishabh/logistic-regression-c2d2bac7afd8
+
 ## License
 
 This project is part of the 42 School curriculum and follows the school's academic policies.
