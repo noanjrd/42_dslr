@@ -41,10 +41,10 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
                 x_batch = x_shuffled[i:i + batch_size]
                 z = np.dot(x_batch, w) + b
                 y_pred = sigmoid(z)
-                errors = y_pred - y_shuffled[i:i + batch_size]
+                errors = y_pred - y_shuffled[i:i + batch_size]  # This is the first part of The binary cross entropy formula's derivative
 
                 res_of_derivative_for_bias = errors.mean()
-                res_of_derivative_for_weights = np.dot(errors, x_batch) / batch_size
+                res_of_derivative_for_weights = np.dot(errors, x_batch) / len(x_batch)
 
                 gradient_history_b = gradient_history_b + res_of_derivative_for_bias ** 2
                 gradient_history_w = gradient_history_w + res_of_derivative_for_weights ** 2

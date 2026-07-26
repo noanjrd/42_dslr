@@ -34,7 +34,7 @@ def adjust_weights_and_bias(data: pd.DataFrame, numeric_cols):
         for _ in range(epoch):
             z = np.dot(x, w) + b  # shape of (1600,)
             y_pred = sigmoid(z)
-            errors = y_pred - y
+            errors = y_pred - y  # This is the first part of The binary cross entropy formula's derivative
 
             res_of_derivative_for_weights = np.dot(errors, x) / number_of_rows
             res_of_derivative_for_bias = errors.mean()
