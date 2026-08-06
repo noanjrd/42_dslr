@@ -17,7 +17,7 @@ The implementation includes:
 
 - **Logistic Regression Implementation**
   - Sigmoid activation function
-  - Adaptive learning-rate updates based on accumulated squared gradients
+  - Adaptive learning-rate updates based on accumulated squared gradients (AdaGrad)
   - Gradient descent optimization
   - Stochastic and mini-batch learning strategies
   - Multi-class classification (One-vs-Rest approach)
