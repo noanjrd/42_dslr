@@ -19,7 +19,7 @@ def mean(data, column):
             continue
         i += 1
         summ += float(row)
-    return float(summ / i)
+    return float(summ / i) if i > 0 else 0.0
 
 
 def variance(data, column, mean):
@@ -30,7 +30,7 @@ def variance(data, column, mean):
             continue
         summ += (row - mean) ** 2
         count += 1
-    return float(summ / (count - 1))  if count > 0 else 0.0
+    return float(summ / (count - 1))  if count > 1 else 0.0
 
 
 def min_and_max(data, column):

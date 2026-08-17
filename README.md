@@ -25,6 +25,8 @@ The implementation includes:
 
 - **Data Science Tools**
   - `describe.py` - Statistical summary of dataset features
+    - Requires the path to a dataset as a command-line argument
+    - Statistics are implemented manually because built-in statistical functions such as `mean`, `std`, and `describe` could not be used for this exercise
   - `histogram.py` - Distribution visualization of numerical features
     - Question: Which Hogwarts course has a homogeneous score distribution between all four houses?
   - `pair_plot.py` - Pairwise relationships between features
@@ -62,8 +64,8 @@ pip install -r requirements.txt
 Explore the training dataset before modeling:
 
 ```bash
-# Generate statistical summary
-python describe.py
+# Generate a statistical summary (a dataset path is required)
+python describe.py datasets/dataset_train.csv
 
 # View feature distributions
 python histogram.py
@@ -74,6 +76,10 @@ python pair_plot.py
 # Create scatter plots
 python scatter_plot.py
 ```
+
+For `describe.py`, statistical calculations such as the count, mean, standard
+deviation, minimum, maximum, and quartiles are implemented from scratch rather
+than with built-in helpers such as `mean()`, `std()`, or `describe()`.
 
 ### Training the Model
 
@@ -126,7 +132,6 @@ python logistic_regression/logreg_precision.py
 ├── weights_and_bias.json              # Trained model parameters
 ├── datasets/
 │   ├── dataset_train.csv              # Training data
-│   └── dataset_test.csv               # Test data
 └── logistic_regression/
     ├── logreg_train.py                # Model training script
     ├── logreg_predict.py              # Prediction script

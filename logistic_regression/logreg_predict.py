@@ -1,11 +1,6 @@
 import pandas as pd
 import json
-import math
-from utils import refine_dataset
-
-
-def sigmoid(z):
-    return 1 / (1 + (math.e ** -(z)))
+from utils import refine_dataset, sigmoid
 
 
 def get_weights_and_bias():

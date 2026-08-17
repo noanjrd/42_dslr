@@ -1,11 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
-from utils import refine_dataset
-
-
-def sigmoid(z):
-    return 1 / (1 + (np.exp(-z)))
+from utils import refine_dataset, sigmoid
 
 
 def save_in_json(weights, bias):
