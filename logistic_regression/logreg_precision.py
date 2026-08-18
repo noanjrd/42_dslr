@@ -1,10 +1,12 @@
-from sklearn.metrics import precision_score
+from sklearn.metrics import precision_score, accuracy_score
 import pandas as pd
 
 
 def evaluate_precision(y_test, y_pred):
     precision = precision_score(y_test, y_pred, average='micro', zero_division=1)
-    print("Here is the accuracy score: ", precision)
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Here is the precision score: ", precision)
+    print("Here is the accuracy score: ", accuracy)
     #  Calculates precision for each class, then takes a simple average.
     #  micro: counts all predictions together.
     #  macro: computes precision for each class, then averages them equally.
