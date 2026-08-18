@@ -11,7 +11,7 @@ The implementation includes:
 - Logistic regression training with stochastic gradient descent and mini-batch learning
 - Custom mathematical implementations (sigmoid, gradient descent, weight optimization, adaptive learning-rate)
 - Data exploration and visualization tools for training data analysis
-- Model evaluation and prediction capabilities, reaching **98.1% precision** on the test set
+- Model evaluation and prediction capabilities, reaching **98.1% accuracy** on the test set
 
 ## Features
 
